@@ -10,7 +10,7 @@ Initially, the particles are given uniform velocity of 1 unit speed/time in rand
 
 ## Methods 
 
-Check out the [report](2d-gas-simulator/report.pdf).
+Check out the [report](https://github.com/jlian/2d-gas-simulator/blob/master/report.pdf).
 
 The algorithm was implemented with the help of *Molecular Dynamics Simulation by Haile*, J. M..
 
