@@ -10,6 +10,8 @@ Initially, the particles are given uniform velocity of 1 unit speed/time in rand
 
 ## Methods 
 
+Check out the [report](https://github.com/jlian/2d-gas-simulator/blob/master/report.pdf)
+
 The algorithm was implemented with the help of *Molecular Dynamics Simulation by Haile*, J. M..
 
 Time steps are not uniform in this simulation. Each frame is resolved by finding the next collision event and the time stamp, then solving for all the particle parameters (positions, velocities) and potential collision times with every other particle.
