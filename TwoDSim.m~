@@ -7,7 +7,7 @@ close all
 
 % Input parameters
 nMolecules = 100;
-dimensionSize = sqrt(nMolecules);
+dimensionSize = 10;
 nCollisions = 10000;
 
 CollitionTime= zeros(nCollisions,2);
@@ -23,7 +23,7 @@ wallHitTable = zeros(nMolecules,3);
 d = 0.1;
 
 % Particle mass
-mass = 2;
+mass = 1;
 
 % The wall
 left = 0;
@@ -177,20 +177,21 @@ for frame = 2:nCollisions
 		t = t+dt;
 		
 		% Update all positions
+        posOld =pos;
 		pos = pos+vel*dt;
         
-%         epsilon=0.0001;
-%         if (wallHit == 1)
-%             pos(parA,1) = right - epsilon;
-%         elseif (wallHit == 2)
-%             pos(parA,1) = left + epsilon ;
-%         elseif (wallHit == 3)
-%             pos(parA,2) = top - epsilon;
-%         elseif(wallHit == 4)
-%             pos(parA,2) = bottom +epsilon;
-%         end
-%         pos(parA,:)
-%         wallHit
+        epsilon=0.0001;
+        if (wallHit == 1)
+            pos(parA,1) = right - epsilon;
+        elseif (wallHit == 2)
+            pos(parA,1) = left + epsilon ;
+        elseif (wallHit == 3)
+            pos(parA,2) = top -epsilon;
+        elseif(wallHit == 4)
+            pos(parA,2) = bottom +epsilon;
+        end
+        pos(parA,:)
+        wallHit
 		
 		% Update the velocity of the colliding particle
 % 		if wallHit == 1 || wallHit == 2
@@ -210,8 +211,8 @@ for frame = 2:nCollisions
     pos(find(pos(:,2)< bottom),2) = top + pos(find(pos(:,2)<bottom),2);
     pos(find(pos(:,2)> top),2) = pos(find(pos(:,2) > top),2) - top;
 	
-    CollitionTime(frame,1) = dt;
-    CollitionTime(frame,2) = nInvolved;
+     CollitionTime(frame,1) = dt;
+     CollitionTime(frame,2) = nInvolved;
 	
 	if isnan(pos(pos<0)) == 0
 		error('Negative position detected!!!');
@@ -320,11 +321,9 @@ figure(4)
 CollitionTime (1:1000,:)=[];
 size(CollitionTime)
 histogram(CollitionTime((CollitionTime(:,2) == 2),1))
-xlim([0 0.05])
 xlabel('collision time')
 ylabel('Prob')
-fname = sprintf('plot_%d_%d_%f_%d.png', nMolecules,round(dimensionSize),d,mass)
-saveas(gcf,fname)
+saveas(gcf,'Barchart.png')
 
 fname = sprintf('data_%d_%d_%f_%d.csv', nMolecules,round(dimensionSize),d,mass)
 fid =fopen(fname, 'w')
