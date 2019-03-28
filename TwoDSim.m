@@ -3,11 +3,12 @@
 % Feb 2015
 
 clear all
+close all
 
 % Input parameters
-nMolecules = 400;
+nMolecules = 100;
 dimensionSize = sqrt(nMolecules);
-nCollisions = 5000;
+nCollisions = 1000;
 
 % Particle-particle collision array
 % Same size as number of pairs
@@ -146,7 +147,12 @@ for frame = 2:nCollisions
 		
 		% Update all positions
 		pos = pos+vel*dt;
-		
+        
+        pos(find(pos(:,1)< left),1) = right + pos(find(pos(:,1)<left),1);
+        pos(find(pos(:,1)> right),1) = pos(find(pos(:,1) > right),1) -right;
+        pos(find(pos(:,2)< bottom),2) = top + pos(find(pos(:,2)<bottom),2);
+        pos(find(pos(:,2)> top),2) = pos(find(pos(:,2) > top),2) - top;
+
 		% Find post collision velocities and update
 		rHat = (pos(parB,:)-pos(parA,:))/norm(pos(parB,:)-pos(parA,:));
 		va = vel(parA,:)-dot((vel(parA,:)-vel(parB,:)),rHat)*rHat;
@@ -167,20 +173,35 @@ for frame = 2:nCollisions
 		dt = nextWallHitTime-t;
 		parA = wallHitTable(wallFlag,1);
 		wallHit = wallHitTable(wallFlag,2);
+        
+        % add boundary condition
 
 		% Advance time to collsion time 
 		t = t+dt;
 		
 		% Update all positions
+        posOld =pos;
 		pos = pos+vel*dt;
-
+        
+        epsilon=0.0001;
+        if (wallHit == 1)
+            pos(parA,1) = right - epsilon;
+        elseif (wallHit == 2)
+            pos(parA,1) = left + epsilon ;
+        elseif (wallHit == 3)
+            pos(parA,2) = top -epsilon;
+        elseif(wallHit == 4)
+            pos(parA,2) = bottom +epsilon;
+        end
+        pos(parA,:)
+        wallHit
 		
 		% Update the velocity of the colliding particle
-		if wallHit == 1 || wallHit == 2
-			vel(parA,1) = -vel(parA,1);
-		else
-			vel(parA,2) = -vel(parA,2);
-		end
+% 		if wallHit == 1 || wallHit == 2
+% 			vel(parA,1) = -vel(parA,1);
+% 		else
+% 			vel(parA,2) = -vel(parA,2);
+% 		end
 		
 		% Clear collision time for this event
 		wallHitTable(wallFlag,3) = NaN;
@@ -244,9 +265,7 @@ for frame = 2:nCollisions
 				deltaWallHitTime(m) = NaN;
 			end
 			wallHitTable(p2w2Check(i),3) = t + deltaWallHitTime(m);
-		end
-		
-		
+        end
 	end
 	
 	% Record the positions and velocities
