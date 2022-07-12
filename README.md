@@ -18,7 +18,7 @@ Time steps are not uniform in this simulation. Each frame is resolved by finding
 
 The MATLAB program was implemented to be able to output real-time animation of the simulation. In order to achieve fast simulation time as well as quick graphics output, the program is selective in updating only the necessary information for each frame. Since each frame is driven by a collision event, the program only updates the particle parameters and potential collision times for those involved in the event instead of all particles. At the same time, instead of calling a `plot()` function for every frame, the program uses `set()` for the `xdata` and `ydata` in the existing plot.
 
-Please see also my post about animation in MATLAB: http://jlian.co/efficient-animation-with-matlab/
+Please see also my post about animation in MATLAB: https://jlian.co/post/matlab-animation/
 
 ## How to use
 
