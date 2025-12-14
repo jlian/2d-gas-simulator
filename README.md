@@ -23,3 +23,7 @@ Please see also my post about animation in MATLAB: https://jlian.co/post/matlab-
 ## How to use
 
 Run the `TwoDSim.m` file in MATLAB to see the animation happen. Play around with the number of particles and the number of collision events and see how that affects the resulting probability distributions. I've also included a pdf copy of the report submitted with the program.
+
+## Animation
+
+See [Efficient animation with MATLAB | John Lian](https://johnlian.net/posts/matlab-animation/).
